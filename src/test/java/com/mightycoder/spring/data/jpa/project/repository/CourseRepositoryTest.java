@@ -2,6 +2,8 @@ package com.mightycoder.spring.data.jpa.project.repository;
 
 import com.github.javafaker.Faker;
 import com.mightycoder.spring.data.jpa.project.entity.Course;
+import com.mightycoder.spring.data.jpa.project.entity.Guardian;
+import com.mightycoder.spring.data.jpa.project.entity.Student;
 import com.mightycoder.spring.data.jpa.project.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,4 +109,32 @@ class CourseRepositoryTest {
         courses.forEach(System.out::println);
     }
 
+    @Test
+    public void saveCourseWithStudentAndTeacher(){
+        Faker faker = new Faker();
+        Teacher teacher = Teacher.builder()
+                .firstName(faker.name().firstName())
+                .lastName(faker.name().lastName())
+                .build();
+        Student student = Student.builder()
+                .firstName(faker.name().firstName())
+                .lastName(faker.name().lastName())
+                .emailId(faker.internet().emailAddress())
+                .guardian(Guardian.builder()
+                        .name(faker.name().fullName())
+                        .email(faker.internet().emailAddress())
+                        .mobile(faker.phoneNumber().cellPhone())
+                        .build())
+                .build();
+        Course course = Course.builder()
+                .courseTitle(faker.educator().course())
+                .credit(12)
+                .teacher(teacher)
+                .build();
+        course.addStudent(student);
+
+        courseRepository.save(course);
+
+        assertNotNull(course.getCourseId());
+    }
 }
