@@ -1,6 +1,8 @@
 package com.mightycoder.spring.data.jpa.project.repository;
 
+import com.github.javafaker.Faker;
 import com.mightycoder.spring.data.jpa.project.entity.Course;
+import com.mightycoder.spring.data.jpa.project.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,4 +31,21 @@ class CourseRepositoryTest {
         assertNotNull(course.getCourseId());
     }
 
+    @Test
+    public void saveCourseWithTeacherObject(){
+        Faker faker = new Faker();
+        Course course = Course
+                .builder()
+                .courseTitle("python")
+                .credit(6)
+                .teacher(Teacher
+                        .builder()
+                        .firstName(faker.name().firstName())
+                        .lastName(faker.name().lastName())
+                        .build())
+                .build();
+
+        courseRepository.save(course);
+        assertNotNull(course.getCourseId());
+    }
 }
