@@ -19,4 +19,14 @@ class CourseRepositoryTest {
         courses.forEach(System.out::println);
     }
 
+    @Test
+    public void saveCourse(){
+        Course course = Course.builder()
+                .credit(1)
+                .courseTitle("ALG")
+                .build();
+        courseRepository.save(course);
+        assertNotNull(course.getCourseId());
+    }
+
 }

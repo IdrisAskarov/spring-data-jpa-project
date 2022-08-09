@@ -24,7 +24,8 @@ public class Course {
     private Integer credit;
 
     @OneToOne(
-            mappedBy = "course"
+            mappedBy = "course",
+            optional = false
     )
     private CourseMaterial courseMaterial;
 }
