@@ -141,11 +141,22 @@ class StudentRepositoryTest {
 
     @Test
     @Order(11)
-    public void updateStudent(){
+    public void updateStudent() {
         System.out.println("updateStudent");
-        var status = studentRepository.updateStudent(student.getEmailId(),"John","Cronin");
+        var status = studentRepository.updateStudent(student.getEmailId(), "John", "Cronin");
         System.out.println(status);
 
         assertTrue(status == 0);
+    }
+
+    @Test
+    @Order(12)
+    public void updateStudentNameByEmailId() {
+        System.out.println("updateStudentNameByEmailId");
+        System.out.println("firstName: " + student.getFirstName() + "; studentId: " + student.getStudentId());
+        var result = studentRepository.updateStudentNameByEmailId(new Faker().name().firstName(), student.getEmailId());
+
+        System.out.println("result: " + result);
+        assertEquals(1, result);
     }
 }
